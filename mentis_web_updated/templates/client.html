@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-3">Welcome, {{ user.email }}</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">New Journal Entry</h5>
+        <form method="POST" action="/client/add">
+            <div class="mb-3">
+                <textarea name="text" class="form-control" rows="4" placeholder="Write your thoughts..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Entry</button>
+        </form>
+    </div>
+</div>
+
+<h5 class="mb-3">Recent Entries</h5>
+<div class="list-group mb-3">
+    {% for entry in entries %}
+        <div class="list-group-item">
+            <small class="text-muted">{{ entry.datetime.split("T")[0] }}</small>
+            <p class="mb-0">{{ entry.text }}</p>
+        </div>
+    {% endfor %}
+</div>
+
+<nav>
+    <ul class="pagination">
+        {% for page_num in range(1, total_pages + 1) %}
+            <li class="page-item {% if current_page == page_num %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('client.dashboard') }}?page={{ page_num }}">{{ page_num }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</nav>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Analyze Journal Entries</h5>
+        <form method="POST" action="/client/analyze" class="d-flex gap-2">
+            <input type="hidden" name="range" value="week">
+            <button type="submit" class="btn btn-warning">Past Week</button>
+        </form>
+        <form method="POST" action="/client/analyze" class="d-flex gap-2 mt-2">
+            <input type="hidden" name="range" value="month">
+            <button type="submit" class="btn btn-warning">Past Month</button>
+        </form>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Summarize Journal Entries</h5>
+        <form method="POST" action="/client/summarize" class="d-flex gap-2">
+            <input type="hidden" name="range" value="week">
+            <button type="submit" class="btn btn-info">Past Week</button>
+        </form>
+        <form method="POST" action="/client/summarize" class="d-flex gap-2 mt-2">
+            <input type="hidden" name="range" value="month">
+            <button type="submit" class="btn btn-info">Past Month</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
