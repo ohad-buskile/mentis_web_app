@@ -102,7 +102,7 @@ mentis/
    app.run(debug=True, port=8000)
    ```
 
-5. **Open your browser** and navigate to the printed local URL (e.g. `http://127.0.0.1:8000`). Register a new account and start journaling! ✨
+5. **Open your browser** and navigate to the printed local URL (e.g. `http://127.0.0.1:5000`). Register a new account and start journaling! ✨
 
 ---
 
