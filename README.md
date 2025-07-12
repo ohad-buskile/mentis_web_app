@@ -96,7 +96,7 @@ mentis/
    python app.py
    ```
 
-   By default the server starts on **[http://127.0.0.1:8000](http://127.0.0.1:8000)**. If you prefer a different port, edit the last line in `app.py`:
+   By default the server starts on **[http://127.0.0.1:5000]**. If you prefer a different port, edit the last line in `app.py`:
 
    ```python
    app.run(debug=True, port=8000)
