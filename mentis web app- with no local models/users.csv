@@ -1,0 +1,4 @@
+role,email,password,first_name,last_name,therapist_email,mantra
+client,ohadbuskile@mentis.com,1234,Ohad,Buskile,metapel@mentis.com,dont talk to may
+client,ilanagofman@mentis.com,1234,Ilana,Gofman,metapel@mentis.com,ohad
+therapist,metapel@mentis.com,1234,Meta,Pel,,

@@ -1,0 +1,88 @@
+:root {
+  --color-bg-shell:  #f2e8d5;
+  --color-bg:        #ffffff;
+  --color-primary:   #4a6fa5;
+  --color-secondary: #6cc29b;
+  --color-text:      #333333;
+  --color-border:    #c4b79c;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+}
+
+.app-shell { background: var(--color-bg-shell); min-height: 100vh; }
+
+h2, .card-title { color: var(--color-primary); font-weight: 600; }
+.text-accent    { color: var(--color-secondary) !important; }
+/*──────────────────────────────────────────────────────────────────
+  LOGO
+──────────────────────────────────────────────────────────────────*/
+.brand-logo {
+  max-height: 40px;
+  width: auto;
+}
+
+.btn-primary {
+  background: var(--color-secondary);
+  border: 2px solid var(--color-secondary);
+  color: #fff;
+}
+.btn-primary:hover { opacity: .9; }
+
+.card {
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: .75rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  display: flex; flex-direction: column;
+}
+.card-body { flex: 1 1 auto; }
+
+.row.align-items-stretch > .col-md-4 {
+  flex: 0 0 33.333%; max-width: 33.333%; display: flex;
+}
+
+.chart-container,
+.summary-text {
+  position: relative; flex: 1 1 auto; width: 100%; min-height: 300px;
+}
+
+.inline-loader {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 48px; height: 48px;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: block; margin: auto;
+}
+
+#radarChart,
+#wordCloudContainer,
+#weeklySummary {
+  display: none; /* shown by JS */
+}
+
+#radarChart,
+#wordCloudContainer { display: block !important; }
+
+.summary-card { height: 500px; }
+.summary-text { max-height: 430px; overflow-y: auto; }
+
+#weeklySummary {
+  list-style: none; padding-left: 0; margin: 0; overflow-y: auto;
+}
+#weeklySummary li {
+  padding-left: .75rem; text-indent: -.75rem;
+}
+
+.entries-list { max-height: 250px; overflow-y: auto; }
+.list-group-item {
+  border: none; border-bottom: 1px solid var(--color-border);
+}
+.list-group-item:last-child { border-bottom: none; }
+
+.anychart-ui { font-size: 0.9rem; }

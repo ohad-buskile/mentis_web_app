@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-4">Welcome, {{ user.first_name }}</h2>
+
+<!-- Add Client -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Assign a Client</h5>
+    <form method="POST" action="/therapist/assign" class="row g-3 align-items-end">
+      <div class="col-md-9">
+        <input type="email" name="client_email" class="form-control" placeholder="Client Email" required>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-primary w-100">Assign Client</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Select Client and Analyze -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Select Client & Analyze</h5>
+    <form method="POST" action="/therapist/" class="row g-3 align-items-end">
+      <div class="col-md-6">
+        <label class="form-label">Client:</label>
+        <select name="client_select" class="form-select" required>
+          {% for client in clients %}
+            <option value="{{ client.email }}"
+              {% if selected_client_email == client.email %}selected{% endif %}>
+              {{ client.email }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" name="range" value="week" class="btn btn-warning w-100">Analyze Week</button>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" name="range" value="month" class="btn btn-info w-100">Analyze Month</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Summary and Parent Sentiment -->
+{% if summary %}
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Summary</h5>
+      <p>{{ summary.replace('\n', '<br>') | safe }}</p>
+      <h6 class="mt-3">
+        Emotional Category:
+        <span class="badge bg-primary">{{ sentiment }}</span>
+      </h6>
+    </div>
+  </div>
+{% endif %}
+
+<!-- Charts -->
+{% if parent_scores %}
+  <div class="row g-4">
+    <!-- Radar Chart -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">High-Level Emotional State</h6>
+          <canvas id="emotionRadar" width="400" height="400"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line Chart -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">Sentiment Over Time</h6>
+          <canvas id="sentimentChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ChartJS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Radar Chart Script -->
+  <script>
+    const radarLabels = {{ parent_scores | map(attribute=0) | list | tojson }};
+    const radarValues = {{ parent_scores | map(attribute=1) | list | tojson }};
+
+    new Chart(document.getElementById('emotionRadar'), {
+      type: 'radar',
+      data: {
+        labels: radarLabels,
+        datasets: [{
+          label: 'Emotional State',
+          data: radarValues,
+          fill: true,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+        }]
+      },
+      options: {
+        elements: { line: { borderWidth: 3 } },
+        scales: {
+          r: {
+            suggestedMin: 0,
+            suggestedMax: 1
+          }
+        }
+      }
+    });
+  </script>
+
+  <!-- Line Chart Script -->
+  <script>
+    new Chart(document.getElementById('sentimentChart'), {
+      type: 'line',
+      data: {
+        labels: {{ sentiment_trend | map(attribute=0) | list | tojson }},
+        datasets: [{
+          label: 'Sentiment Trend',
+          data: {{ sentiment_trend | map(attribute=1) | list | tojson }},
+          borderColor: 'rgba(255, 99, 132, 1)',
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            min: -1,
+            max: 1,
+            ticks: {
+              stepSize: 1,
+              callback: val => ({ '-1':'Struggling','0':'Neutral','1':'Good' }[val] || val)
+            }
+          }
+        }
+      }
+    });
+  </script>
+{% endif %}
+{% endblock %}

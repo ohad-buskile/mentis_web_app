@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Welcome, {{ user.first_name }}</h2>
+
+  <!-- Add Mantra -->
+
+  <div class="modal fade" id="mantraModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form method="POST" action="{{ url_for('client.set_mantra') }}">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Your Mantra</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <textarea name="mantra" class="form-control" rows="3"
+                      placeholder="Enter a phrase to inspire you…">{{ mantra }}</textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Mantra</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- New Journal Entry -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title text-accent">What's on your mind?</h5>
+      <form method="POST" action="{{ url_for('client.add_entry') }}">
+        <textarea name="text" class="form-control mb-2" rows="4"
+                  placeholder="Manage your therapy here" required></textarea>
+        <button type="submit" class="btn btn-primary">Save Entry</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Analysis Row -->
+  <div class="row mb-4 align-items-stretch">
+    <!-- Radar -->
+    <div class="col-md-4 d-flex">
+      <div class="card w-100">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-center text-accent">Emotional Radar</h5>
+          <div class="chart-container flex-grow-1">
+            <img id="radarLoader" class="inline-loader"
+                 src="{{ url_for('static', filename='loader.gif') }}" alt="loading…">
+            <canvas id="radarChart" style="display:none;"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Word Cloud -->
+    <div class="col-md-4 d-flex">
+      <div class="card w-100">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-center text-accent">Emotion Word Cloud</h5>
+          <div class="chart-container flex-grow-1">
+            <img id="wcLoader" class="inline-loader"
+                 src="{{ url_for('static', filename='loader.gif') }}" alt="loading…">
+            <div id="wordCloudContainer"
+                 style="display:none; width:100%; height:100%; min-height:300px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="col-md-4 d-flex">
+      <div class="card summary-card w-100">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-accent">Last Week Recap</h5>
+          <div class="summary-text flex-grow-1">
+            <img id="summaryLoader" class="inline-loader"
+                 src="{{ url_for('static', filename='loader.gif') }}" alt="loading…">
+            <ul id="weeklySummary"
+                class="small mb-0 flex-grow-1 overflow-auto"
+                style="display:none;"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Entries -->
+  <h5 class="mb-3">Recent Entries</h5>
+  <div class="list-group entries-list mb-4">
+    {% for e in entries %}
+      <div class="list-group-item">
+        <small class="text-muted">{{ e.datetime.split('T')[0] }}</small>
+        <p class="mb-0">{{ e.text }}</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
