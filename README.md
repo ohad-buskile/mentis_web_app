@@ -36,8 +36,10 @@ This project uses two locally fine-tuned models:
 
 ## 🔗 Data Sources
 
-- **Summarization training data:**  
+- **Summarization training data phase 1 (CNN data set for summarization tasks):**  
   https://www.kaggle.com/datasets/gowrishankarp/newspaper-text-summarization-cnn-dailymail
+- **Summarization training data phase 2 (journal entries mock data for clinical languages):**  
+  CVV file in the directory 
 
 - **Sentiment analysis training data:**  
   https://www.kaggle.com/datasets/madhavmalhotra/journal-entries-with-labelled-emotions
