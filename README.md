@@ -72,7 +72,7 @@ mentis/
 
 3. **Download the fine‑tuned models**
 
-   A shared Google Drive folder (https://drive.google.com/drive/folders/1VziVh0rc2nyd-jfI3xyQ11hohq5CcX7Q?usp=drive_link) contains two zipped model folders:
+   A shared Google Drive folder (https://drive.google.com/drive/folders/1VziVh0rc2nyd-jfI3xyQ11hohq5CcX7Q?usp=sharing) contains two zipped model folders:
 
    | Folder on Drive                     | Destination in project       |
    | ----------------------------------- | ---------------------------- |
